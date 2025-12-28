@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>♥ 77朕天下專屬 ♥ 賽特爆分機率房</title>
+
+<style>
+:root{
+    --main:#c9a3ff;
+    --light:#e6d7ff;
+    --glow:rgba(201,163,255,.95);
+    --particle:rgba(240,230,255,.75);
+}
+body.ver-I{
+    --main:#ff3b3b;
+    --light:#ff9a9a;
+    --glow:rgba(255,60,60,1);
+    --particle:rgba(255,210,210,.7);
+}
+body{
+    font-family:"Microsoft JhengHei",Arial,sans-serif;
+    background:center/cover fixed no-repeat;
+    margin:0;
+    padding:14px;
+    color:#fff;
+    display:flex;
+    justify-content:center;
+    min-height:100vh;
+    overflow:hidden;
+}
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background:center/cover no-repeat;
+    opacity:0;
+    transition:.8s;
+    z-index:-3;
+}
+body.bg-fade::before{opacity:1;}
+
+#particles{position:fixed;inset:0;pointer-events:none;z-index:-2;}
+.particle{
+    position:absolute;
+    width:6px;height:6px;border-radius:50%;
+    background:var(--particle);
+    animation:float linear infinite;
+}
+@keyframes float{
+    from{transform:translateY(0);opacity:.6}
+    to{transform:translateY(-120vh);opacity:0}
+}
+
+.container{max-width:1000px;width:100%;text-align:center}
+h1{color:var(--main);text-shadow:0 0 18px var(--glow);}
+
+button{
+    width:200px;margin:6px;padding:12px;
+    border:none;border-radius:16px;
+    font-weight:bold;color:#fff;
+    background:linear-gradient(to bottom,var(--light),var(--main));
+    box-shadow:0 6px 18px rgba(0,0,0,.55);
+    cursor:pointer;
+}
+button:disabled{opacity:.6}
+
+.progress-wrap{
+    width:100%;max-width:520px;height:34px;margin:18px auto;
+    background:rgba(0,0,0,.55);
+    border-radius:20px;
+    overflow:hidden;display:none;
+}
+.progress-bar{
+    height:100%;width:0%;
+    background:linear-gradient(90deg,var(--light),var(--main));
+    display:flex;align-items:center;justify-content:center;
+    font-weight:bold;
+}
+
+.slot-container{
+    display:none;
+    grid-template-columns:repeat(3,1fr);
+    gap:14px;
+}
+.slot{
+    background:rgba(10,10,10,.9);
+    padding:14px;border-radius:12px;
+    display:flex;justify-content:space-between;
+    opacity:0;transform:translateY(20px);
+    transition:.4s;
+}
+.slot.show{opacity:1;transform:none}
+.highest{
+    border:2px solid var(--main);
+    box-shadow:0 0 35px var(--glow);
+    animation:pulse 1.2s infinite;
+}
+@keyframes pulse{
+    0%,100%{transform:scale(1)}
+    50%{transform:scale(1.05)}
+}
+.high{
+    border:2px solid #fff;
+    box-shadow:0 0 25px rgba(255,255,255,.95);
+}
+@media(max-width:768px){.slot-container{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:480px){.slot-container{grid-template-columns:1fr}button{width:100%}}
+</style>
+</head>
+
+<body class="ver-II">
+<div id="particles"></div>
+
+<div class="container">
+<h1 id="title">♥ 77朕天下專屬 ♥ 賽特II爆分機率房</h1>
+
+<div>
+<button id="countBtn" onclick="refresh()">三十分鐘換一次 ♥</button>
+<button onclick="toggleVer()">切換版本</button>
+</div>
+
+<div id="progressWrap" class="progress-wrap">
+    <div id="progressBar" class="progress-bar">
+        <span id="progressText">爆分機率計算中…</span>
+    </div>
+</div>
+
+<div id="slots" class="slot-container"></div>
+</div>
+
+<script>
+let version="II";
+let cooling=false;
+
+function changeBg(img){
+    document.body.style.backgroundImage=`url("${img}")`;
+    document.body.classList.add("bg-fade");
+    setTimeout(()=>document.body.classList.remove("bg-fade"),800);
+}
+function particlesGen(n=60){
+    particles.innerHTML="";
+    for(let i=0;i<n;i++){
+        let d=document.createElement("div");
+        d.className="particle";
+        d.style.left=Math.random()*100+"%";
+        d.style.bottom=Math.random()*100+"%";
+        d.style.animationDuration=5+Math.random()*10+"s";
+        particles.appendChild(d);
+    }
+}
+function rand(n,m){return Math.floor(Math.random()*(m-n+1))+n}
+
+function generate(){
+    slots.innerHTML="";
+    slots.style.display="grid";
+    progressWrap.style.display="block";
+    progressBar.style.width="0%";
+    let data=[];
+    for(let i=0;i<3;i++)data.push({r:rand(1,3000),p:rand(85,92),c:"highest"});
+    for(let i=0;i<12;i++)data.push({r:rand(1,3000),p:rand(70,84),c:"high"});
+    while(data.length<30)data.push({r:rand(1,3000),p:rand(50,69),c:""});
+    let done=0;
+    data.forEach((d,i)=>{
+        let div=document.createElement("div");
+        div.className="slot "+d.c;
+        div.innerHTML=`<span>第 ${d.r} 房</span><span>${d.p}%</span>`;
+        slots.appendChild(div);
+        setTimeout(()=>{
+            div.classList.add("show");
+            done++;
+            progressBar.style.width=Math.floor(done/data.length*100)+"%";
+        },i*40);
+    });
+}
+
+function refresh(){
+    if(cooling)return;
+    generate();
+    cooling=true;
+    let t=1800;
+    countBtn.disabled=true;
+    let timer=setInterval(()=>{
+        t--;
+        countBtn.innerText=`♥ ${String(t/60|0).padStart(2,"0")}:${String(t%60).padStart(2,"0")} ♥`;
+        if(t<=0){
+            clearInterval(timer);
+            cooling=false;
+            countBtn.disabled=false;
+            countBtn.innerText="三十分鐘換一次 ♥";
+        }
+    },1000);
+}
+
+function toggleVer(){
+    version=version==="II"?"I":"II";
+    document.body.className=version==="I"?"ver-I":"ver-II";
+    title.innerText=`♥ 77朕天下專屬 ♥ 賽特${version}爆分機率房`;
+    changeBg(version==="I"?"bg1.jpg":"bg2.jpg");
+    generate();
+}
+
+window.onload=()=>{
+    changeBg("bg2.jpg");
+    particlesGen();
+    generate();
+};
+</script>
+</body>
+</html>
